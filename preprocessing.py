@@ -20,15 +20,15 @@ def read_translate_train_data(data_path):
     # station分组处理
     group_station = train_ori_data.groupby('stationID', as_index=False)
     for stationId, group in group_station:
-        # 对于每个station分开不同时间段的time
-        time_table = group.groupby(group['time'].map(lambda x: x[:15] + '0'))['status_0', 'status_1'].sum()
+        # 对于每个station分开不同时间段的time 这里 '0:00' 需要添加吗？显示问题
+        time_table = group.groupby(group['time'].map(lambda x: x[:15] + '0:00'))['status_0', 'status_1'].sum()
         time_table['stationID'] = stationId
         time_table['startTime'] = time_table.index
         time_table = time_table.reset_index(drop=True)
-        result_table = pd.concat([result_table, time_table])
+        result_table = pd.concat([result_table, time_table],sort=True)
 
     # 改变特征顺序和名字
-    # result_table.columns = ['stationID', 'outNums', 'inNums', 'startTime']
+    result_table.columns = ['startTime', 'stationID', 'outNums', 'inNums']
     # result_table = result_table[['stationID', 'startTime', 'inNums', 'outNums']]
     # print(result_table)
     return result_table
