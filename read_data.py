@@ -32,10 +32,11 @@ class DataReader():
         file = file.drop(['lineID'], axis=1)
 
         #时间格式整理
-        time_zero = time.mktime(time.strptime(file['time'][0].split()[0] + ' 00:00:00', '%Y-%m-%d %H:%M:%S'))
+        # time_zero = time.mktime(time.strptime(file['time'][0].split()[0] + ' 00:00:00', '%Y-%m-%d %H:%M:%S'))
         new_times = []
+        new_dates = []
         for old_time in file['time']:
-             new_times.append(int((time.mktime(time.strptime(old_time, '%Y-%m-%d %H:%M:%S')) - time_zero)/600))
+            # new_times.append(int((time.mktime(time.strptime(old_time, '%Y-%m-%d %H:%M:%S')) - time_zero)/600))
         del file['time']
         file.loc[:, 'time'] = pd.Series(new_times)
 
