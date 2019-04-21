@@ -25,11 +25,11 @@ def read_translate_train_data(data_path):
         time_table['stationID'] = stationId
         time_table['startTime'] = time_table.index
         time_table = time_table.reset_index(drop=True)
-        result_table = pd.concat([result_table, time_table], sort=False)
+        result_table = pd.concat([result_table, time_table])
 
     # 改变特征顺序和名字
-    result_table.columns = ['stationID', 'outNums', 'inNums', 'startTime']
-    result_table = result_table[['stationID', 'startTime', 'inNums', 'outNums']]
+    # result_table.columns = ['stationID', 'outNums', 'inNums', 'startTime']
+    # result_table = result_table[['stationID', 'startTime', 'inNums', 'outNums']]
     # print(result_table)
     return result_table
 
