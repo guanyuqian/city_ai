@@ -78,13 +78,13 @@ if __name__ == '__main__':
                       'data/Metro_train/record_2019-01-03.csv', 'data/Metro_train/record_2019-01-04.csv',
                       'data/Metro_train/record_2019-01-05.csv', 'data/Metro_train/record_2019-01-06.csv',
                       'data/Metro_train/record_2019-01-07.csv', 'data/Metro_train/record_2019-01-08.csv',
-                      'data/Metro_train/record_2019-01-09.csv', 'data/Metro_train/record_2019-01-010.csv',
-                      'data/Metro_train/record_2019-01-011.csv', 'data/Metro_train/record_2019-01-012.csv',
-                      'data/Metro_train/record_2019-01-013.csv', 'data/Metro_train/record_2019-01-014.csv',
-                      'data/Metro_train/record_2019-01-015.csv', 'data/Metro_train/record_2019-01-016.csv',
-                      'data/Metro_train/record_2019-01-017.csv', 'data/Metro_train/record_2019-01-018.csv',
-                      'data/Metro_train/record_2019-01-019.csv', 'data/Metro_train/record_2019-01-020.csv',
-                      'data/Metro_train/record_2019-01-021.csv', 'data/Metro_train/record_2019-01-022.csv',
-                      'data/Metro_train/record_2019-01-023.csv', 'data/Metro_train/record_2019-01-024.csv',
-                      'data/Metro_train/record_2019-01-025.csv']
+                      'data/Metro_train/record_2019-01-09.csv', 'data/Metro_train/record_2019-01-10.csv',
+                      'data/Metro_train/record_2019-01-11.csv', 'data/Metro_train/record_2019-01-12.csv',
+                      'data/Metro_train/record_2019-01-13.csv', 'data/Metro_train/record_2019-01-14.csv',
+                      'data/Metro_train/record_2019-01-15.csv', 'data/Metro_train/record_2019-01-16.csv',
+                      'data/Metro_train/record_2019-01-17.csv', 'data/Metro_train/record_2019-01-18.csv',
+                      'data/Metro_train/record_2019-01-19.csv', 'data/Metro_train/record_2019-01-20.csv',
+                      'data/Metro_train/record_2019-01-21.csv', 'data/Metro_train/record_2019-01-22.csv',
+                      'data/Metro_train/record_2019-01-23.csv', 'data/Metro_train/record_2019-01-24.csv',
+                      'data/Metro_train/record_2019-01-25.csv']
     pre_processing_train_data(file_path_list)
