@@ -104,3 +104,4 @@ venv.bak/
 # mkdocs documentation
 /site
 
+!/data/
