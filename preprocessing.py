@@ -59,7 +59,7 @@ def read_translate_train_data(data_path):
 
 # 结合昨天和今天的特征
 def combind_pre_and_now(yes_table, today_table):
-    return pd.merge(yes_table, today_table, left_index=True, right_index=True, how='outer', suffixes=('', '_pre'))[
+    return pd.merge(today_table, yes_table, left_index=True, right_index=True, how='outer', suffixes=('', '_pre'))[
         ['stationID', 'startTime', 'endTime', 'inNums_pre', 'outNums_pre', 'inNums', 'outNums']]
 
 
