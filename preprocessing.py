@@ -1,18 +1,21 @@
-import datetime
+"""Summary of class here.
+   将train数据统计处理
+"""
+
+
 import os
 import time
-from concurrent.futures import ProcessPoolExecutor
-from math import ceil
-import matplotlib.pyplot as plt
 import pandas as pd
-import numpy as np
 import datetime as dt
 import os.path
 
 
 # 读取和转换当天各个数段的进出情况
+import const
+
+
 def read_translate_train_data(data_path):
-    print(time.strftime('%Y%m%d%H%M%S') + ":read_translate_train_data " + data_path + " Begin")
+    print(time.strftime('%Y%m%d%H%M%S') + ": read_translate_train_data " + data_path + " Begin")
     result_table = pd.DataFrame([], columns=['stationID', 'startTime', 'endTime', 'inNums', 'outNums'])
     train_ori_data = pd.read_csv(data_path, usecols=['stationID', 'time', 'status'])
 
@@ -26,7 +29,7 @@ def read_translate_train_data(data_path):
     begin = train_ori_data['time'][0].replace(hour=0, minute=0, second=0)
     end = train_ori_data['time'][0].replace(hour=23, minute=50, second=0)
     d = begin
-    delta = datetime.timedelta(minutes=10)
+    delta = dt.timedelta(minutes=10)
     while d <= end:
         all_time_df.loc[all_time_df.shape[0] + 1] = {'startTime': d}
         d += delta
@@ -56,11 +59,33 @@ def read_translate_train_data(data_path):
     return result_table.sort_values(by=['stationID', 'startTime']).reset_index(drop=True)
 
 
-
 # 结合昨天和今天的特征
 def combind_pre_and_now(yes_table, today_table):
     return pd.merge(today_table, yes_table, left_index=True, right_index=True, how='outer', suffixes=('', '_pre'))[
         ['stationID', 'startTime', 'endTime', 'inNums_pre', 'outNums_pre', 'inNums', 'outNums']]
+
+
+# 拼接所有完成数据
+def combind_all_post_data(read_path, save_path, save_name='train_data.csv'):
+    # 获取当前路径
+    cwd = os.getcwd()
+    # 修改当前工作目录
+    os.chdir(read_path)
+    # 将该文件夹下的所有文件名存入列表
+    csv_name_list = os.listdir()
+    csv_name_list=[x for x in csv_name_list if os.path.splitext(x)[1] == ".csv"]
+    # 读取第一个CSV文件并包含表头，用于后续的csv文件拼接
+    df = pd.read_csv(csv_name_list[0])
+    # 读取第一个CSV文件并保存
+    df.to_csv(cwd + '\\' + save_path + '\\' + save_name, encoding="utf_8", index=False)
+
+
+
+    # 循环遍历列表中各个CSV文件名，并完成文件拼接
+
+    for f in csv_name_list:
+        df = pd.read_csv(f)
+        df.to_csv(cwd + '\\' + save_path + '\\' + save_name, encoding="utf_8", index=False, header=False, mode='a+')
 
 
 def pre_processing_train_data(file_path_list):
@@ -71,10 +96,13 @@ def pre_processing_train_data(file_path_list):
         if i != 0:
             combind_pre_and_now(last, now).to_csv("data/Processed_data/" + file_name, index=False)
             print(time.strftime('%Y%m%d%H%M%S') + ": write to data/Processed_data/ " + file_name)
+
         last = now
 
 
 if __name__ == '__main__':
+
+    combind_all_post_data(read_path=const.PROCESSED_DATA_PATH , save_path=const.PROCESSED_DATA_PATH , save_name='train_data.csv')
     file_path_list = ['data/Metro_train/record_2019-01-01.csv', 'data/Metro_train/record_2019-01-02.csv',
                       'data/Metro_train/record_2019-01-03.csv', 'data/Metro_train/record_2019-01-04.csv',
                       'data/Metro_train/record_2019-01-05.csv', 'data/Metro_train/record_2019-01-06.csv',
