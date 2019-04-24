@@ -2,13 +2,11 @@
    将train数据统计处理
 """
 
-
 import os
 import time
 import pandas as pd
 import datetime as dt
 import os.path
-
 
 # 读取和转换当天各个数段的进出情况
 import const
@@ -65,29 +63,6 @@ def combind_pre_and_now(yes_table, today_table):
         ['stationID', 'startTime', 'endTime', 'inNums_pre', 'outNums_pre', 'inNums', 'outNums']]
 
 
-# 拼接所有完成数据
-def combind_all_post_data(read_path, save_path, save_name='train_data.csv'):
-    # 获取当前路径
-    cwd = os.getcwd()
-    # 修改当前工作目录
-    os.chdir(read_path)
-    # 将该文件夹下的所有文件名存入列表
-    csv_name_list = os.listdir()
-    csv_name_list=[x for x in csv_name_list if os.path.splitext(x)[1] == ".csv"]
-    # 读取第一个CSV文件并包含表头，用于后续的csv文件拼接
-    df = pd.read_csv(csv_name_list[0])
-    # 读取第一个CSV文件并保存
-    df.to_csv(cwd + '\\' + save_path + '\\' + save_name, encoding="utf_8", index=False)
-
-
-
-    # 循环遍历列表中各个CSV文件名，并完成文件拼接
-
-    for f in csv_name_list:
-        df = pd.read_csv(f)
-        df.to_csv(cwd + '\\' + save_path + '\\' + save_name, encoding="utf_8", index=False, header=False, mode='a+')
-
-
 def pre_processing_train_data(file_path_list):
     last = ''
     for i in range(len(file_path_list)):
@@ -100,9 +75,17 @@ def pre_processing_train_data(file_path_list):
         last = now
 
 
-if __name__ == '__main__':
+# 结合转换测试的数据，即有一个record一个submit
+def combine_test_data(record_path=const.TEST_A_PATH + 'testA_record_2019-01-28.csv',
+                      submit_path='testA_submit_2019-01-29.csv'):
+    last = read_translate_train_data(record_path)
+    now = pd.read_csv(submit_path)
+    result = combind_pre_and_now(last, now)
+    result.to_csv(const.TEST_A_PROCESSED_FILE_PATH)
+    return result
 
-    combind_all_post_data(read_path=const.PROCESSED_DATA_PATH , save_path=const.PROCESSED_DATA_PATH , save_name='train_data.csv')
+
+if __name__ == '__main__':
     file_path_list = ['data/Metro_train/record_2019-01-01.csv', 'data/Metro_train/record_2019-01-02.csv',
                       'data/Metro_train/record_2019-01-03.csv', 'data/Metro_train/record_2019-01-04.csv',
                       'data/Metro_train/record_2019-01-05.csv', 'data/Metro_train/record_2019-01-06.csv',
