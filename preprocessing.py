@@ -56,6 +56,7 @@ def read_translate_train_data(data_path):
     return result_table.sort_values(by=['stationID', 'startTime']).reset_index(drop=True)
 
 
+
 # 结合昨天和今天的特征
 def combind_pre_and_now(yes_table, today_table):
     return pd.merge(yes_table, today_table, left_index=True, right_index=True, how='outer', suffixes=('', '_pre'))[
@@ -69,7 +70,7 @@ def pre_processing_train_data(file_path_list):
         now = read_translate_train_data(file_path_list[i])
         if i != 0:
             combind_pre_and_now(last, now).to_csv("data/Processed_data/" + file_name, index=False)
-            print(time.strftime('%Y%m%d%H%M%S') + ": write to data/Processed_data/ " + file_name )
+            print(time.strftime('%Y%m%d%H%M%S') + ": write to data/Processed_data/ " + file_name)
         last = now
 
 
